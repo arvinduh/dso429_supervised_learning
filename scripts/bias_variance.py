@@ -3,7 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from absl import app, flags
+from absl import app, flags, logging
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import PolynomialFeatures
@@ -14,6 +14,12 @@ flags.DEFINE_string(
   "output_filename",
   "./output/bias_variance_graph.png",
   "Path to save the output graph image.",
+)
+
+flags.DEFINE_boolean(
+  "show_plots",
+  False,
+  "Whether to display the plots interactively after saving.",
 )
 
 # Define parameters globally as constants [cite: 183]
@@ -103,7 +109,11 @@ def main(argv):
 
   # Save the figure instead of showing it
   plt.savefig(FLAGS.output_filename)
-  print(f"Graph saved to {FLAGS.output_filename}")
+  logging.info("Graph saved to %s", FLAGS.output_filename)
+
+  if FLAGS.show_plots:
+    plt.show()
+    logging.info("Displayed the plot interactively.")
 
 
 # Standard main execution block for absl
